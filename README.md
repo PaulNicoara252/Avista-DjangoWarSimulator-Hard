@@ -1,17 +1,7 @@
 <div align="center">
 <img width="1024" height="572" alt="image" src="https://github.com/user-attachments/assets/aaa9b206-0804-44a7-8ac3-c819afa7e742" />
 
-```text
-      /\                                                        /\
-     |  |                                                      |  |
-    /----\                  DJANGO WAR SIMULATOR                /----\
-   [______]             ~ General Deadlock's Fortress ~        [______]
-    |    |        CodeRun V7 Hackathon • BEST Cluj-Napoca       |    |
-    | [] |                                                      | [] |
-    |    |     ⚔️  BLUE TEAM   vs.   RED TEAM  ⚔️              |    |
-   /      \                                                    /      \
-  [________]==================================================[________]
-```
+
 
 [![CodeRun V7](https://img.shields.io/badge/Hackathon-CodeRun%20V7-darkred?style=for-the-badge&logo=github)](https://bestcj.ro/)
 [![Organizer](https://img.shields.io/badge/Organized%20by-BEST%20Cluj--Napoca-blue?style=for-the-badge)](https://bestcj.ro/)
