@@ -1,1 +1,1 @@
-# Avista---DjangoWarSimulator---Hard
+# Avista-DjangoWarSimulator-Hard
