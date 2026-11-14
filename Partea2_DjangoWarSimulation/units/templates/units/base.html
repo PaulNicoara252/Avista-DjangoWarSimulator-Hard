@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}War simulator{% endblock %}</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: #f3f5f8;
+      color: #1e293b;
+      line-height: 1.5;
+    }
+    header {
+      background: #162238;
+      color: #fff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    header a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    header a:hover { color: #fff; }
+    header .brand {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+      margin-right: auto;
+    }
+    main {
+      max-width: 1050px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .panel {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    }
+    .muted { color: #64748b; }
+    button {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.6rem 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { opacity: 0.92; }
+    table.stats {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+    }
+    table.stats th, table.stats td {
+      text-align: left;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .history-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    }
+    .turns {
+      margin: 0.5rem 0 0;
+      padding-left: 1.25rem;
+      color: #334155;
+    }
+    .messages {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem;
+    }
+    .messages li {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #86efac;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 0.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+    }
+    .card img {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .heal-btn {
+      width: 100%;
+      background: #15803d;
+      margin-top: 0.75rem;
+    }
+    select, input[type="text"], input[type="number"], input[type="url"] {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="{% url 'units:all' %}">War simulator</a>
+    <a href="{% url 'units:all' %}">All units</a>
+    <a href="{% url 'units:create' %}">Add unit</a>
+    <a href="{% url 'units:hard_simulate' %}">Simulate API Fights</a>
+  </header>
+  <main>
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>

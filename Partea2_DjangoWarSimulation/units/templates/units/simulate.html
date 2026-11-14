@@ -1,0 +1,74 @@
+{% extends "units/base.html" %}
+{% block title %}Simulate Fights · War simulator{% endblock %}
+{% block content %}
+  <section class="panel">
+    <h1>Parallel Fight Simulation (Hard)</h1>
+    <p class="muted">
+      Registered people: <strong>{{ people_count }}</strong> ·
+      Drafted soldiers: <strong>{{ drafted_soldiers|length }}</strong> ·
+      Simulated API fights: <strong>{{ api_fights|length }}</strong>
+    </p>
+    {% if stats %}
+      <p class="muted">Last parallel run: <strong>{{ stats.replayed_count }}</strong> fights across <strong>{{ stats.workers }}</strong> worker threads in <strong>{{ stats.elapsed_seconds }}s</strong>.</p>
+    {% endif %}
+    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 0.75rem;">
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="replay">
+        <button type="submit">Reset HP &amp; Replay Fights in Parallel</button>
+      </form>
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="resync">
+        <button type="submit" style="background: #19713b;">Full Re-Sync API &amp; Replay</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Team Statistics</h2>
+    <table class="stats">
+      <thead><tr><th>Team</th><th>Fights</th><th>Damage caused</th><th>Damage taken</th></tr></thead>
+      <tbody>
+        {% for stat in team_stats %}
+          <tr><td>{{ stat.team }}</td><td>{{ stat.fights }}</td><td>{{ stat.damage_caused }}</td><td>{{ stat.damage_taken }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Simulated Fights ({{ api_fights|length }})</h2>
+    {% for fight in api_fights %}
+      <article class="history-card">
+        <strong>
+          Fight #{{ fight.external_fight_id }}:
+          <a href="{% url 'units:detail' fight.first_fighter.pk %}">{{ fight.first_fighter.name }}</a>
+          (Blue · {{ fight.first_fighter.rank }} · HP: {{ fight.first_fighter.health }}/100)
+          vs
+          <a href="{% url 'units:detail' fight.second_fighter.pk %}">{{ fight.second_fighter.name }}</a>
+          (Red · {{ fight.second_fighter.rank }} · HP: {{ fight.second_fighter.health }}/100)
+        </strong>
+        <p>
+          {% if fight.winner %}
+            Winner (Knockout): <strong>{{ fight.winner.name }}</strong>
+          {% elif fight.is_stalemate %}
+            Stalemate
+          {% else %}
+            Completed ({{ fight.turns.count }} events replayed · no knockout)
+          {% endif %}
+        </p>
+        <ol class="turns">
+          {% for turn in fight.turns.all %}
+            <li>
+              Step {{ turn.turn_number }}: <strong>{{ turn.attacker.name }}</strong> attacked <strong>{{ turn.defender.name }}</strong>
+              for <strong>{{ turn.damage }}</strong> damage → {{ turn.defender.name }} HP: <strong>{{ turn.defender_health }}/100</strong>
+            </li>
+          {% endfor %}
+        </ol>
+      </article>
+    {% empty %}
+      <div class="panel"><p>No API fights simulated yet.</p></div>
+    {% endfor %}
+  </section>
+{% endblock %}
